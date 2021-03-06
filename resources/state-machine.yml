@@ -14,5 +14,11 @@ definition:
   States:
     CreateRequest:
       Type: Task
+      Comment: 'create a request for changing bank account'
       Resource: !GetAtt CreateRequest.Arn
+      Next: BankAccountValidation
+    BankAccountValidation:
+      Type: Task
+      Comment: 'validate bank account'
+      Resource: !GetAtt BankAccountValidation.Arn
       End: true

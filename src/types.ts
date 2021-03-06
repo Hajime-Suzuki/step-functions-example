@@ -1,3 +1,5 @@
+import { BankAccountChangeRequest } from './domain/BankAccountChangeRequest'
+
 export type Maybe<A> = A | null | undefined
 
 export type User = {
@@ -6,8 +8,7 @@ export type User = {
   name: string
 }
 
-export type BankAccountChangeRequestInput = {
-  userId: string
-  name: string
-  iban: string
-}
+export type BankAccountAccountChangeRequestResponse = Pick<
+  BankAccountChangeRequest,
+  'userId' | 'requestId'
+>
