@@ -17,6 +17,7 @@ export type BankAccountChangeRequest = {
   iban: string
   status: BankAccountChangeStatus
   requestId: string
+  token?: string
 }
 
 export const mkBankAccountChangeRequest = (

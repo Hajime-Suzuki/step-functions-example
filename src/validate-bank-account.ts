@@ -42,16 +42,6 @@ const validateBankAccount = async (
     throw new InvalidBankAccountError(validationError)
   }
 
-  logger.log(`validation ${data.requestId} for user ${data.userId} succeeded`)
-
-  await changeRequestRepository.updateState({
-    userId: data.userId,
-    requestId: data.requestId,
-    status: 'VALIDATION_SUCCESS',
-  })
-
-  logger.log(`validation status ${data.requestId} for user ${data.userId} updated`)
-
   return {
     userId: data.userId,
     requestId: data.requestId,
@@ -60,7 +50,9 @@ const validateBankAccount = async (
 
 const validate = async (_data: { iban: string; name: string }): Promise<Maybe<string>> => {
   //* perform validation such as charge 1 cents. For the simplicity, this is a random success/failure
-  return Math.random() < 0.5 ? null : 'invalid bank account...'
+  // return Math.random() < 0.5 ? null : 'invalid bank account...
+
+  return null
 }
 
 export const handler = validateBankAccount

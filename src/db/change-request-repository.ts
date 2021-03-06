@@ -72,8 +72,28 @@ const updateState = async (data: {
     .promise()
 }
 
+const saveToken = async (data: { userId: string; requestId: string; token: string }) => {
+  return await client
+    .update({
+      TableName: tableName,
+      Key: {
+        userId: data.userId,
+        ...mkSortKey(data.requestId),
+      },
+      UpdateExpression: 'set #token = :token',
+      ExpressionAttributeNames: {
+        '#token': 'token',
+      },
+      ExpressionAttributeValues: {
+        ':token': data.token,
+      },
+    })
+    .promise()
+}
+
 export const changeRequestRepository = {
   save,
   getOne,
+  saveToken,
   updateState,
 }

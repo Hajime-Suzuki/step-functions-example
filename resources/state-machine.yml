@@ -24,15 +24,22 @@ definition:
       Resource: !GetAtt ValidateBankAccount.Arn
       Catch:
         - ErrorEquals: ['InvalidBankAccountError']
-          Next: NotifyInvalidBankAccount
-      Next: ApproveRequest
+          Next: HandleFailedRequest
+      Next: HandleSuccessfulRequest
 
-    NotifyInvalidBankAccount:
+    HandleFailedRequest:
       Type: Pass
-      Comment: 'notify user if bank account info is invalid'
+      Comment: 'update status of request and notify user'
       End: true
 
-    ApproveRequest:
-      Type: Pass
-      Comment: 'manually approve the bank account changes'
+    HandleSuccessfulRequest:
+      Type: Task
+      Comment: 'update status of request and save task token for manual approval'
+      Resource: arn:aws:states:::lambda:invoke.waitForTaskToken
+      Parameters:
+        FunctionName: !Ref HandleSuccessfulRequest
+        Payload:
+          userId.$: $.userId
+          requestId.$: $.requestId
+          token.$: $$.Task.Token
       End: true
