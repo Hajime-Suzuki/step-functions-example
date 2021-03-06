@@ -2,8 +2,17 @@ import {
   BankAccountChangeRequest,
   BankAccountChangeStatus,
 } from '../domain/BankAccountChangeRequest'
+import { Maybe } from '../types'
+import { getLogger } from '../utils/logger'
 import { client } from './client'
 import { mkSortKey, tableName } from './config'
+
+// sort key is requestId
+type DBRecord = Omit<BankAccountChangeRequest, 'requestId'> & { SK: string }
+const parseDBRecord = ({ SK, ...data }: DBRecord): BankAccountChangeRequest => ({
+  ...data,
+  requestId: SK,
+})
 
 const save = async (data: BankAccountChangeRequest) => {
   await client
@@ -17,11 +26,34 @@ const save = async (data: BankAccountChangeRequest) => {
     .promise()
 }
 
+const getOne = async (
+  data: Pick<BankAccountChangeRequest, 'userId' | 'requestId'>,
+): Promise<Maybe<BankAccountChangeRequest>> => {
+  const logger = getLogger()
+  logger.log('getting request for', data)
+
+  const res = await client
+    .get({
+      TableName: tableName,
+      Key: {
+        userId: data.userId,
+        ...mkSortKey(data.requestId),
+      },
+    })
+    .promise()
+
+  logger.log('request found: ', res.Item)
+
+  return res.Item ? parseDBRecord(res.Item as DBRecord) : null
+}
+
 const updateState = async (data: {
   userId: string
   requestId: string
   status: Exclude<BankAccountChangeStatus, 'WAITING_FOR_VALIDATION'>
 }) => {
+  const logger = getLogger()
+  logger.log('update status:', data)
   await client
     .update({
       TableName: tableName,
@@ -42,5 +74,6 @@ const updateState = async (data: {
 
 export const changeRequestRepository = {
   save,
+  getOne,
   updateState,
 }

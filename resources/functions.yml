@@ -1,6 +1,6 @@
 CreateRequest:
   name: ${self:service.name}-${self:provider.stage}__CreateRequest
   handler: src/create-request.handler
-BankAccountValidation:
-  name: ${self:service.name}-${self:provider.stage}__BankAccountValidation
+ValidateBankAccount:
+  name: ${self:service.name}-${self:provider.stage}__ValidateBankAccount
   handler: src/validate-bank-account.handler

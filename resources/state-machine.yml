@@ -16,9 +16,23 @@ definition:
       Type: Task
       Comment: 'create a request for changing bank account'
       Resource: !GetAtt CreateRequest.Arn
-      Next: BankAccountValidation
-    BankAccountValidation:
+      Next: ValidateBankAccount
+
+    ValidateBankAccount:
       Type: Task
       Comment: 'validate bank account'
-      Resource: !GetAtt BankAccountValidation.Arn
+      Resource: !GetAtt ValidateBankAccount.Arn
+      Catch:
+        - ErrorEquals: ['InvalidBankAccountError']
+          Next: NotifyInvalidBankAccount
+      Next: ApproveRequest
+
+    NotifyInvalidBankAccount:
+      Type: Pass
+      Comment: 'notify user if bank account info is invalid'
+      End: true
+
+    ApproveRequest:
+      Type: Pass
+      Comment: 'manually approve the bank account changes'
       End: true
