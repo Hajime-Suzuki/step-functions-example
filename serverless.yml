@@ -12,19 +12,22 @@ provider:
   stage: ${opt:stage, 'dev'}
   runtime: nodejs14.x
   environment:
-    test: test
+    tableName: ${self:service.name}-${self:provider.stage}__BankAccountRequestTable
+    region: ${self:provider.region}
   apiGateway:
     shouldStartNameWithService: true
   lambdaHashingVersion: 20201221
-  iam:
-    role:
-      statements:
-        - Effect: Allow
-          Action:
-            - states:SendTaskSuccess
-            - states:SendTaskFailure
-            - states:SendTaskHeartbeat
-          Resource: 'arn:aws:states:*:*:*'
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - states:SendTaskSuccess
+        - states:SendTaskFailure
+        - states:SendTaskHeartbeat
+      Resource: 'arn:aws:states:*:*:*'
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: !GetAtt Database.Arn
 
 resources: ${file(./resources/resources.yml)}
 

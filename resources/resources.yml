@@ -1,8 +1,8 @@
 Resources:
-  db:
+  Database:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: BankAccountRequestTable
+      TableName: ${self:provider.environment.tableName}
 
       KeySchema:
         - AttributeName: userId
