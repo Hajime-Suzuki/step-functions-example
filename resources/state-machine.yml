@@ -1,0 +1,18 @@
+name: bank-account-change-state
+
+tracingConfig:
+  enabled: true
+
+events:
+  - http:
+      path: /
+      method: POST
+
+definition:
+  Comment: workflows for changing bank account
+  StartAt: CreateRequest
+  States:
+    CreateRequest:
+      Type: Task
+      Resource: !GetAtt CreateRequest.Arn
+      End: true

@@ -1,0 +1,3 @@
+CreateRequest:
+  name: ${self:service.name}-${self:provider.stage}__CreateRequest
+  handler: src/create-request.handler

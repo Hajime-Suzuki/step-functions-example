@@ -1,0 +1,19 @@
+Resources:
+  db:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: BankAccountRequestTable
+
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+
+      BillingMode: PAY_PER_REQUEST

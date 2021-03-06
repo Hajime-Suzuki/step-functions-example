@@ -1,0 +1,9 @@
+{
+  "transform": {
+    "^.+\\.tsx?$": "esbuild-jest"
+  },
+  "testEnvironment": "node",
+  "resetMocks": true,
+  "testMatch": ["**/__tests__/**/*.test.ts"],
+  "globals": { "diagnostics": { "warnOnly": true } }
+}

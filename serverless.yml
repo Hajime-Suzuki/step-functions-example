@@ -1,0 +1,47 @@
+service: step-functions-example
+
+functions: ${file(./resources/functions.yml)}
+
+stepFunctions:
+  stateMachines:
+    main: ${file(./resources/state-machine.yml)}
+
+provider:
+  name: aws
+  region: 'eu-central-1'
+  stage: ${opt:stage, 'dev'}
+  runtime: nodejs14.x
+  environment:
+    test: test
+  apiGateway:
+    shouldStartNameWithService: true
+  lambdaHashingVersion: 20201221
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - states:SendTaskSuccess
+            - states:SendTaskFailure
+            - states:SendTaskHeartbeat
+          Resource: 'arn:aws:states:*:*:*'
+
+resources: ${file(./resources/resources.yml)}
+
+custom:
+  serverless-offline:
+    httpPort: 4000
+
+  webpack:
+    packager: yarn
+    webpackConfig: webpack.config.ts
+    includeModules:
+      forceExclude:
+        - aws-sdk
+
+package:
+  individually: true
+
+plugins:
+  - serverless-step-functions
+  - serverless-webpack
