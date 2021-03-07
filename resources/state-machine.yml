@@ -24,12 +24,14 @@ definition:
       Resource: !GetAtt ValidateBankAccount.Arn
       Catch:
         - ErrorEquals: ['InvalidBankAccountError']
+          ResultPath: $.error
           Next: HandleFailedRequest
       Next: HandleSuccessfulRequest
 
     HandleFailedRequest:
-      Type: Pass
+      Type: Task
       Comment: 'update status of request and notify user'
+      Resource: !GetAtt HandleFailedRequest.Arn
       End: true
 
     HandleSuccessfulRequest:

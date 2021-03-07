@@ -10,6 +10,8 @@ export type BankAccountChangeStatus =
   | 'WAITING_FOR_VALIDATION'
   | 'VALIDATION_SUCCESS'
   | 'VALIDATION_FAILED'
+  | 'SUCCESS'
+  | 'FAILURE'
 
 export type BankAccountChangeRequest = {
   userId: string

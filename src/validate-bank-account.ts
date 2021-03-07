@@ -2,7 +2,7 @@ import { changeRequestRepository } from './db/change-request-repository'
 import { InvalidBankAccountError } from './errors/InvalidBankAccountError'
 import { NotFoundError } from './errors/NotFoundError'
 import { BankAccountAccountChangeRequestResponse, Maybe } from './types'
-import { getLogger } from './utils/logger'
+import { logger } from './utils/logger'
 
 /**
  * this function handles handles any validation of the bank account, such as charging 1 cent
@@ -10,7 +10,6 @@ import { getLogger } from './utils/logger'
 const validateBankAccount = async (
   data: BankAccountAccountChangeRequestResponse,
 ): Promise<BankAccountAccountChangeRequestResponse> => {
-  const logger = getLogger()
   logger.log('input', data)
 
   const changeRequest = await changeRequestRepository.getOne(data)
@@ -52,7 +51,8 @@ const validate = async (_data: { iban: string; name: string }): Promise<Maybe<st
   //* perform validation such as charge 1 cents. For the simplicity, this is a random success/failure
   // return Math.random() < 0.5 ? null : 'invalid bank account...
 
-  return null
+  return 'invalid bank account'
+  // return null
 }
 
 export const handler = validateBankAccount

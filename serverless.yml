@@ -12,7 +12,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   runtime: nodejs14.x
   environment:
-    tableName: ${self:service.name}-${self:provider.stage}__BankAccountRequestTable
+    tableName: ${self:custom.prefix}__BankAccountRequestTable
     region: ${self:provider.region}
   apiGateway:
     shouldStartNameWithService: true
@@ -32,9 +32,7 @@ provider:
 resources: ${file(./resources/resources.yml)}
 
 custom:
-  serverless-offline:
-    httpPort: 4000
-
+  prefix: ${self:service.name}-${self:provider.stage}
   webpack:
     packager: yarn
     webpackConfig: webpack.config.ts

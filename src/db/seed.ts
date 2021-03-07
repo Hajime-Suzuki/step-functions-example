@@ -14,6 +14,7 @@ export const seed = () => {
 
                 iban: 'NL01ABCD0123456789',
                 name: 'John Doe',
+                email: 'user1@test.com',
               },
             },
           },
@@ -24,6 +25,7 @@ export const seed = () => {
                 ...mkSortKey('USER'),
                 iban: 'NL02WXYZ9876543210',
                 name: 'Jane Doe',
+                email: 'user2@test.com',
               },
             },
           },

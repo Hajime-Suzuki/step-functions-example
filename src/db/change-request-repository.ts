@@ -3,7 +3,7 @@ import {
   BankAccountChangeStatus,
 } from '../domain/BankAccountChangeRequest'
 import { Maybe } from '../types'
-import { getLogger } from '../utils/logger'
+import { logger } from '../utils/logger'
 import { client } from './client'
 import { mkSortKey, tableName } from './config'
 
@@ -29,7 +29,6 @@ const save = async (data: BankAccountChangeRequest) => {
 const getOne = async (
   data: Pick<BankAccountChangeRequest, 'userId' | 'requestId'>,
 ): Promise<Maybe<BankAccountChangeRequest>> => {
-  const logger = getLogger()
   logger.log('getting request for', data)
 
   const res = await client
@@ -52,7 +51,6 @@ const updateState = async (data: {
   requestId: string
   status: Exclude<BankAccountChangeStatus, 'WAITING_FOR_VALIDATION'>
 }) => {
-  const logger = getLogger()
   logger.log('update status:', data)
   await client
     .update({

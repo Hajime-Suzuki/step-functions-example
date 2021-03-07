@@ -6,12 +6,13 @@ import {
 } from './domain/BankAccountChangeRequest'
 import { NotFoundError } from './errors/NotFoundError'
 import { BankAccountAccountChangeRequestResponse } from './types'
+import { logger } from './utils/logger'
 
 const createRequest = async (
   data: BankAccountChangeRequestInput,
 ): Promise<BankAccountAccountChangeRequestResponse> => {
   //TODO: add input validation
-  console.log(`input: ${data}`)
+  logger.log('input:', data)
 
   const user = await userRepository.getUserById(data.userId)
   if (!user) throw new NotFoundError('user not found')
@@ -19,7 +20,7 @@ const createRequest = async (
   const changeRequest = mkBankAccountChangeRequest(data)
   await changeRequestRepository.save(changeRequest)
 
-  console.log(`request is created: userId ${data.userId}, requestId: ${changeRequest.requestId}`)
+  logger.log(`request is created: userId ${data.userId}, requestId: ${changeRequest.requestId}`)
 
   return {
     userId: data.userId,
