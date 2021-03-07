@@ -14,7 +14,7 @@ const createRequest = async (
   //TODO: add input validation
   logger.log('input:', data)
 
-  const user = await userRepository.getUserById(data.userId)
+  const user = await userRepository.getById(data.userId)
   if (!user) throw new NotFoundError('user not found')
 
   const changeRequest = mkBankAccountChangeRequest(data)

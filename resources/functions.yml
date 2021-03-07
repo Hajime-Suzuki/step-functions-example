@@ -21,3 +21,7 @@ ApproveBankAccountChange:
     - http:
         method: post
         path: /approve/{userId}/{requestId}
+
+UpdateBankAccount:
+  name: ${self:custom.prefix}__UpdateBankAccount
+  handler: src/update-bank-account.handler

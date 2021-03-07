@@ -6,30 +6,34 @@ import { approveBankAccountChange } from './resources/step-functions/confirm'
 import { logger } from './utils/logger'
 
 const approveChange = async (event: APIGatewayEvent) => {
-  logger.log('body:', event.body)
+  try {
+    logger.log('body:', event.body)
+    //TODO: add validation
+    const data = event.pathParameters as { userId: string; requestId: string }
 
-  //TODO: add validation
-  const data = event.pathParameters as { userId: string; requestId: string }
+    const changeRequest = await changeRequestRepository.getOne(data)
+    if (!changeRequest) throw new NotFoundError('change request not found')
 
-  const changeRequest = await changeRequestRepository.getOne(data)
-  if (!changeRequest) throw new NotFoundError('change request not found')
+    if (bankAccountChangeRequest.isDone(changeRequest)) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ message: 'already validated' }),
+      }
+    }
+    logger.log('approve change request')
+    await approveBankAccountChange(changeRequest)
 
-  if (bankAccountChangeRequest.isDone(changeRequest)) {
     return {
       statusCode: 200,
-      body: {
-        message: 'already validated',
-      },
+      body: JSON.stringify({ message: 'request is approved' }),
     }
-  }
-  logger.log('approve change request')
-  await approveBankAccountChange(changeRequest)
-
-  return {
-    statusCode: 200,
-    body: {
-      message: 'request is approved',
-    },
+  } catch (error) {
+    return {
+      statusCode: error.status || 500,
+      body: JSON.stringify({
+        error: error.message,
+      }),
+    }
   }
 }
 

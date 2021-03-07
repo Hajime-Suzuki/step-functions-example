@@ -1,5 +1,6 @@
 import { client } from './client'
-import { mkSortKey, tableName } from './config'
+import { tableName } from './config'
+import { mkSortKey } from './user-repository'
 
 export const seed = () => {
   return client
@@ -10,7 +11,7 @@ export const seed = () => {
             PutRequest: {
               Item: {
                 userId: '1',
-                ...mkSortKey('USER'),
+                ...mkSortKey(),
 
                 iban: 'NL01ABCD0123456789',
                 name: 'John Doe',
@@ -22,7 +23,7 @@ export const seed = () => {
             PutRequest: {
               Item: {
                 userId: '2',
-                ...mkSortKey('USER'),
+                ...mkSortKey(),
                 iban: 'NL02WXYZ9876543210',
                 name: 'Jane Doe',
                 email: 'user2@test.com',

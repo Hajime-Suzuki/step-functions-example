@@ -5,10 +5,11 @@ import {
 import { Maybe } from '../../types'
 import { logger } from '../../utils/logger'
 import { client } from './client'
-import { mkSortKey, tableName } from './config'
+import { tableName } from './config'
 
 // sort key is requestId
 type DBRecord = Omit<BankAccountChangeRequest, 'requestId'> & { SK: string }
+const mkSortKey = (data: string) => ({ SK: data })
 const parseDBRecord = ({ SK, ...data }: DBRecord): BankAccountChangeRequest => ({
   ...data,
   requestId: SK,
@@ -89,9 +90,30 @@ const saveToken = async (data: { userId: string; requestId: string; token: strin
     .promise()
 }
 
+const completeRequest = async (data: { userId: string; requestId: string }) => {
+  return await client
+    .update({
+      TableName: tableName,
+      Key: {
+        userId: data.userId,
+        ...mkSortKey(data.requestId),
+      },
+      UpdateExpression: 'remove #token set #status = :status',
+      ExpressionAttributeNames: {
+        '#token': 'token',
+        '#status': 'status',
+      },
+      ExpressionAttributeValues: {
+        ':status': 'SUCCESS' as BankAccountChangeStatus,
+      },
+    })
+    .promise()
+}
+
 export const changeRequestRepository = {
   save,
   getOne,
   saveToken,
   updateState,
+  completeRequest,
 }

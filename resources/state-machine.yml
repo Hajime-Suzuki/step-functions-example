@@ -44,4 +44,10 @@ definition:
           userId.$: $.userId
           requestId.$: $.requestId
           token.$: $$.Task.Token
+      Next: UpdateBankAccount
+
+    UpdateBankAccount:
+      Type: Task
+      Comment: 'update bank account and update change request state'
+      Resource: !GetAtt UpdateBankAccount.Arn
       End: true

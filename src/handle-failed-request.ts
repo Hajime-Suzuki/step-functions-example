@@ -7,7 +7,7 @@ import { logger } from './utils/logger'
 const handleFailedRequest = async (data: BankAccountAccountChangeRequestResponse) => {
   logger.log('input', data)
 
-  const user = await userRepository.getUserById(data.userId)
+  const user = await userRepository.getById(data.userId)
   if (!user) throw new NotFoundError('user not found')
 
   await changeRequestRepository.updateState({
