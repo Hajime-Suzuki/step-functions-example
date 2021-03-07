@@ -1,10 +1,10 @@
-import { NotFoundError } from './errors/NotFoundError'
-import { changeRequestRepository } from './resources/db/change-request-repository'
-import { userRepository } from './resources/db/user-repository'
-import { BankAccountAccountChangeRequestResponse } from './types'
-import { logger } from './utils/logger'
+import { NotFoundError } from '../errors/NotFoundError'
+import { changeRequestRepository } from '../resources/db/change-request-repository'
+import { userRepository } from '../resources/db/user-repository'
+import { BankAccountAccountChangeId } from '../types'
+import { logger } from '../utils/logger'
 
-const updateBankAccount = async (data: BankAccountAccountChangeRequestResponse) => {
+const updateBankAccount = async (data: BankAccountAccountChangeId) => {
   logger.log('input:', data)
 
   const changeRequest = await changeRequestRepository.getOne(data)

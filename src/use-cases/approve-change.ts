@@ -1,13 +1,13 @@
 import { APIGatewayEvent } from 'aws-lambda'
-import { bankAccountChangeRequest } from './domain/BankAccountChangeRequest'
-import { BadRequestError } from './errors/BadRequestError'
-import { NotFoundError } from './errors/NotFoundError'
-import { changeRequestRepository } from './resources/db/change-request-repository'
+import { bankAccountChangeRequest } from '../domain/BankAccountChangeRequest'
+import { BadRequestError } from '../errors/BadRequestError'
+import { NotFoundError } from '../errors/NotFoundError'
+import { changeRequestRepository } from '../resources/db/change-request-repository'
 import {
   approveBankAccountChange,
   rejectBankAccountChange,
-} from './resources/step-functions/confirm'
-import { logger } from './utils/logger'
+} from '../resources/step-functions/confirm'
+import { logger } from '../utils/logger'
 
 const approveChange = async (event: APIGatewayEvent) => {
   try {

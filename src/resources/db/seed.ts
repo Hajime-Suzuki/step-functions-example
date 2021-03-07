@@ -2,8 +2,8 @@ import { client } from './client'
 import { tableName } from './config'
 import { mkSortKey } from './user-repository'
 
-export const seed = () => {
-  return client
+export const seed = async () => {
+  await client
     .batchWrite({
       RequestItems: {
         [tableName]: [
@@ -35,4 +35,7 @@ export const seed = () => {
       },
     })
     .promise()
+  return {
+    statusCode: 201,
+  }
 }

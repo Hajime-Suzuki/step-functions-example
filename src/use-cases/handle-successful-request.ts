@@ -1,10 +1,10 @@
-import { changeRequestRepository } from './resources/db/change-request-repository'
-import { BankAccountAccountChangeRequestResponse } from './types'
-import { logger } from './utils/logger'
+import { changeRequestRepository } from '../resources/db/change-request-repository'
+import { BankAccountAccountChangeId } from '../types'
+import { logger } from '../utils/logger'
 
 const handleSuccessfulRequest = async (
-  data: BankAccountAccountChangeRequestResponse & { token: string },
-): Promise<BankAccountAccountChangeRequestResponse> => {
+  data: BankAccountAccountChangeId & { token: string },
+): Promise<BankAccountAccountChangeId> => {
   logger.log('input', data)
 
   await changeRequestRepository.updateState({

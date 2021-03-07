@@ -1,22 +1,30 @@
+SeedDatabase:
+  name: ${self:custom.prefix}__SeedDatabase
+  handler: src/resources/db/seed.seed
+  events:
+    - http:
+        method: post
+        path: /seed
+
 CreateRequest:
   name: ${self:custom.prefix}__CreateRequest
-  handler: src/create-request.handler
+  handler: src/use-cases/create-request.handler
 
 ValidateBankAccount:
   name: ${self:custom.prefix}__ValidateBankAccount
-  handler: src/validate-bank-account.handler
+  handler: src/use-cases/validate-bank-account.handler
 
 HandleSuccessfulRequest:
   name: ${self:custom.prefix}__HandleSuccessfulRequest
-  handler: src/handle-successful-request.handler
+  handler: src/use-cases/handle-successful-request.handler
 
 HandleFailedRequest:
   name: ${self:custom.prefix}__HandleFailedRequest
-  handler: src/handle-failed-request.handler
+  handler: src/use-cases/handle-failed-request.handler
 
 ApproveBankAccountChange:
   name: ${self:custom.prefix}__ApproveBankAccountChange
-  handler: src/approve-change.handler
+  handler: src/use-cases/approve-change.handler
   events:
     - http:
         method: post
@@ -24,8 +32,8 @@ ApproveBankAccountChange:
 
 UpdateBankAccount:
   name: ${self:custom.prefix}__UpdateBankAccount
-  handler: src/update-bank-account.handler
+  handler: src/use-cases/update-bank-account.handler
 
 NotifyCompleteRequest:
   name: ${self:custom.prefix}__NotifyCompleteRequest
-  handler: src/notify-complete-request.handler
+  handler: src/use-cases/notify-complete-request.handler

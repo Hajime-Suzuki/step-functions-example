@@ -1,63 +1,64 @@
-name: bank-account-change-state
+main:
+  name: bank-account-change-state
 
-tracingConfig:
-  enabled: true
+  tracingConfig:
+    enabled: true
 
-events:
-  - http:
-      path: /
-      method: POST
+  events:
+    - http:
+        path: /
+        method: POST
 
-definition:
-  Comment: workflows for changing bank account
-  StartAt: CreateRequest
-  States:
-    CreateRequest:
-      Type: Task
-      Comment: 'create a request for changing bank account'
-      Resource: !GetAtt CreateRequest.Arn
-      Next: ValidateBankAccount
+  definition:
+    Comment: workflows for changing bank account
+    StartAt: CreateRequest
+    States:
+      CreateRequest:
+        Type: Task
+        Comment: 'create a request for changing bank account'
+        Resource: !GetAtt CreateRequest.Arn
+        Next: ValidateBankAccount
 
-    ValidateBankAccount:
-      Type: Task
-      Comment: 'validate bank account'
-      Resource: !GetAtt ValidateBankAccount.Arn
-      Catch:
-        - ErrorEquals: ['InvalidBankAccountError']
-          ResultPath: $.error
-          Next: HandleFailedRequest
-      Next: HandleSuccessfulRequest
+      ValidateBankAccount:
+        Type: Task
+        Comment: 'validate bank account'
+        Resource: !GetAtt ValidateBankAccount.Arn
+        Catch:
+          - ErrorEquals: ['InvalidBankAccountError']
+            ResultPath: $.error
+            Next: HandleFailedRequest
+        Next: HandleSuccessfulRequest
 
-    HandleFailedRequest:
-      Type: Task
-      Comment: 'update status of request and notify user'
-      Resource: !GetAtt HandleFailedRequest.Arn
-      End: true
+      HandleFailedRequest:
+        Type: Task
+        Comment: 'update status of request and notify user'
+        Resource: !GetAtt HandleFailedRequest.Arn
+        End: true
 
-    HandleSuccessfulRequest:
-      Type: Task
-      Comment: 'update status of request and save task token for manual approval'
-      Resource: arn:aws:states:::lambda:invoke.waitForTaskToken
-      Parameters:
-        FunctionName: !Ref HandleSuccessfulRequest
-        Payload:
-          userId.$: $.userId
-          requestId.$: $.requestId
-          token.$: $$.Task.Token
-      Catch:
-        - ErrorEquals: ['BANK_ACCOUNT_CHANGE_REJECTED']
-          ResultPath: $.error
-          Next: HandleFailedRequest
-      Next: UpdateBankAccount
+      HandleSuccessfulRequest:
+        Type: Task
+        Comment: 'update status of request and save task token for manual approval'
+        Resource: arn:aws:states:::lambda:invoke.waitForTaskToken
+        Parameters:
+          FunctionName: !Ref HandleSuccessfulRequest
+          Payload:
+            userId.$: $.userId
+            requestId.$: $.requestId
+            token.$: $$.Task.Token
+        Catch:
+          - ErrorEquals: ['BANK_ACCOUNT_CHANGE_REJECTED']
+            ResultPath: $.error
+            Next: HandleFailedRequest
+        Next: UpdateBankAccount
 
-    UpdateBankAccount:
-      Type: Task
-      Comment: 'update bank account and update change request state'
-      Resource: !GetAtt UpdateBankAccount.Arn
-      Next: NotifyCompleteRequest
+      UpdateBankAccount:
+        Type: Task
+        Comment: 'update bank account and update change request state'
+        Resource: !GetAtt UpdateBankAccount.Arn
+        Next: NotifyCompleteRequest
 
-    NotifyCompleteRequest:
-      Type: Task
-      Comment: 'notify user of completing request'
-      Resource: !GetAtt NotifyCompleteRequest.Arn
-      End: true
+      NotifyCompleteRequest:
+        Type: Task
+        Comment: 'notify user of completing request'
+        Resource: !GetAtt NotifyCompleteRequest.Arn
+        End: true

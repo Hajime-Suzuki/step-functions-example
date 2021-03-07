@@ -1,16 +1,16 @@
-import { changeRequestRepository } from './resources/db/change-request-repository'
-import { InvalidBankAccountError } from './errors/InvalidBankAccountError'
-import { NotFoundError } from './errors/NotFoundError'
-import { BankAccountAccountChangeRequestResponse, Maybe } from './types'
-import { logger } from './utils/logger'
-import { bankAccountChangeRequest } from './domain/BankAccountChangeRequest'
+import { bankAccountChangeRequest } from '../domain/BankAccountChangeRequest'
+import { InvalidBankAccountError } from '../errors/InvalidBankAccountError'
+import { NotFoundError } from '../errors/NotFoundError'
+import { changeRequestRepository } from '../resources/db/change-request-repository'
+import { BankAccountAccountChangeId, Maybe } from '../types'
+import { logger } from '../utils/logger'
 
 /**
  * this function handles handles any validation of the bank account, such as charging 1 cent
  */
 const validateBankAccount = async (
-  data: BankAccountAccountChangeRequestResponse,
-): Promise<BankAccountAccountChangeRequestResponse> => {
+  data: BankAccountAccountChangeId,
+): Promise<BankAccountAccountChangeId> => {
   logger.log('input', data)
 
   const changeRequest = await changeRequestRepository.getOne(data)

@@ -1,16 +1,16 @@
-import { changeRequestRepository } from './resources/db/change-request-repository'
-import { userRepository } from './resources/db/user-repository'
 import {
   BankAccountChangeRequestInput,
   mkBankAccountChangeRequest,
-} from './domain/BankAccountChangeRequest'
-import { NotFoundError } from './errors/NotFoundError'
-import { BankAccountAccountChangeRequestResponse } from './types'
-import { logger } from './utils/logger'
+} from '../domain/BankAccountChangeRequest'
+import { NotFoundError } from '../errors/NotFoundError'
+import { changeRequestRepository } from '../resources/db/change-request-repository'
+import { userRepository } from '../resources/db/user-repository'
+import { BankAccountAccountChangeId } from '../types'
+import { logger } from '../utils/logger'
 
 const createRequest = async (
   data: BankAccountChangeRequestInput,
-): Promise<BankAccountAccountChangeRequestResponse> => {
+): Promise<BankAccountAccountChangeId> => {
   //TODO: add input validation
   logger.log('input:', data)
 
