@@ -25,3 +25,7 @@ ApproveBankAccountChange:
 UpdateBankAccount:
   name: ${self:custom.prefix}__UpdateBankAccount
   handler: src/update-bank-account.handler
+
+NotifyCompleteRequest:
+  name: ${self:custom.prefix}__NotifyCompleteRequest
+  handler: src/notify-complete-request.handler

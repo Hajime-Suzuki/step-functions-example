@@ -26,14 +26,16 @@ const updateBankAccount = async (data: { userId: string; iban: string; name: str
         userId: data.userId,
         ...mkSortKey(),
       },
-      UpdateExpression: 'set #iban = :iban, #name = :name',
+      UpdateExpression: 'set #iban = :iban, #name = :name, #updatedAt = :updatedAt',
       ExpressionAttributeNames: {
         '#iban': 'iban',
         '#name': 'name',
+        '#updatedAt': 'updatedAt',
       },
       ExpressionAttributeValues: {
         ':iban': data.iban,
         ':name': data.name,
+        ':updatedAt': new Date().toISOString(),
       },
     })
     .promise()

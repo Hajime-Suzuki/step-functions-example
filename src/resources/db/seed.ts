@@ -12,10 +12,10 @@ export const seed = () => {
               Item: {
                 userId: '1',
                 ...mkSortKey(),
-
                 iban: 'NL01ABCD0123456789',
                 name: 'John Doe',
                 email: 'user1@test.com',
+                createdAt: new Date().toISOString(),
               },
             },
           },
@@ -27,6 +27,7 @@ export const seed = () => {
                 iban: 'NL02WXYZ9876543210',
                 name: 'Jane Doe',
                 email: 'user2@test.com',
+                createdAt: new Date().toISOString(),
               },
             },
           },

@@ -22,7 +22,7 @@ const updateBankAccount = async (data: BankAccountAccountChangeRequestResponse) 
   })
 
   return {
-    success: true,
+    userId: data.userId,
   }
 }
 

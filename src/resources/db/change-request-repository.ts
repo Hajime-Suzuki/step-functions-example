@@ -60,12 +60,14 @@ const updateState = async (data: {
         userId: data.userId,
         ...mkSortKey(data.requestId),
       },
-      UpdateExpression: 'set #status = :status',
+      UpdateExpression: 'set #status = :status, #updatedAt = :updatedAt',
       ExpressionAttributeNames: {
         '#status': 'status',
+        '#updatedAt': 'updatedAt',
       },
       ExpressionAttributeValues: {
         ':status': data.status,
+        ':updatedAt': new Date().toISOString(),
       },
     })
     .promise()
@@ -79,12 +81,14 @@ const saveToken = async (data: { userId: string; requestId: string; token: strin
         userId: data.userId,
         ...mkSortKey(data.requestId),
       },
-      UpdateExpression: 'set #token = :token',
+      UpdateExpression: 'set #token = :token, #updatedAt = :updatedAt',
       ExpressionAttributeNames: {
         '#token': 'token',
+        '#updatedAt': 'updatedAt',
       },
       ExpressionAttributeValues: {
         ':token': data.token,
+        ':updatedAt': new Date().toISOString(),
       },
     })
     .promise()
@@ -98,13 +102,15 @@ const completeRequest = async (data: { userId: string; requestId: string }) => {
         userId: data.userId,
         ...mkSortKey(data.requestId),
       },
-      UpdateExpression: 'remove #token set #status = :status',
+      UpdateExpression: 'remove #token set #status = :status, #updatedAt = :updatedAt',
       ExpressionAttributeNames: {
         '#token': 'token',
         '#status': 'status',
+        '#updatedAt': 'updatedAt',
       },
       ExpressionAttributeValues: {
         ':status': 'SUCCESS' as BankAccountChangeStatus,
+        ':updatedAt': new Date().toISOString(),
       },
     })
     .promise()

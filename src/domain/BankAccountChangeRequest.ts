@@ -20,6 +20,8 @@ export type BankAccountChangeRequest = {
   status: BankAccountChangeStatus
   requestId: string
   token?: string
+  createdAt: string
+  updatedAt?: string
 }
 
 export const mkBankAccountChangeRequest = (
@@ -31,6 +33,7 @@ export const mkBankAccountChangeRequest = (
     name: data.name,
     status: 'WAITING_FOR_VALIDATION',
     requestId: shortId(),
+    createdAt: new Date().toISOString(),
   }
 }
 

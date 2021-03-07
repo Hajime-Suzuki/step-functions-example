@@ -50,4 +50,10 @@ definition:
       Type: Task
       Comment: 'update bank account and update change request state'
       Resource: !GetAtt UpdateBankAccount.Arn
+      Next: NotifyCompleteRequest
+
+    NotifyCompleteRequest:
+      Type: Task
+      Comment: 'notify user of completing request'
+      Resource: !GetAtt NotifyCompleteRequest.Arn
       End: true
