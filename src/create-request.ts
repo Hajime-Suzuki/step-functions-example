@@ -1,5 +1,5 @@
-import { changeRequestRepository } from './db/change-request-repository'
-import { userRepository } from './db/user-repository'
+import { changeRequestRepository } from './resources/db/change-request-repository'
+import { userRepository } from './resources/db/user-repository'
 import {
   BankAccountChangeRequestInput,
   mkBankAccountChangeRequest,

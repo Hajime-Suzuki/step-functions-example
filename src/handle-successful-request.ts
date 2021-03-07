@@ -1,4 +1,4 @@
-import { changeRequestRepository } from './db/change-request-repository'
+import { changeRequestRepository } from './resources/db/change-request-repository'
 import { BankAccountAccountChangeRequestResponse } from './types'
 import { logger } from './utils/logger'
 

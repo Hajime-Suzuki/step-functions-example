@@ -1,9 +1,9 @@
 import {
   BankAccountChangeRequest,
   BankAccountChangeStatus,
-} from '../domain/BankAccountChangeRequest'
-import { Maybe } from '../types'
-import { logger } from '../utils/logger'
+} from '../../domain/BankAccountChangeRequest'
+import { Maybe } from '../../types'
+import { logger } from '../../utils/logger'
 import { client } from './client'
 import { mkSortKey, tableName } from './config'
 

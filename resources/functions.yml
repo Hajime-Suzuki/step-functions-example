@@ -13,3 +13,11 @@ HandleSuccessfulRequest:
 HandleFailedRequest:
   name: ${self:custom.prefix}__HandleFailedRequest
   handler: src/handle-failed-request.handler
+
+ApproveBankAccountChange:
+  name: ${self:custom.prefix}__ApproveBankAccountChange
+  handler: src/approve-change.handler
+  events:
+    - http:
+        method: post
+        path: /approve/{userId}/{requestId}

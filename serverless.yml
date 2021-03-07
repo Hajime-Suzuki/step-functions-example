@@ -1,6 +1,7 @@
 service: step-functions-example
 
 functions: ${file(./resources/functions.yml)}
+resources: ${file(./resources/resources.yml)}
 
 stepFunctions:
   stateMachines:
@@ -28,8 +29,6 @@ provider:
       Action:
         - dynamodb:*
       Resource: !GetAtt Database.Arn
-
-resources: ${file(./resources/resources.yml)}
 
 custom:
   prefix: ${self:service.name}-${self:provider.stage}

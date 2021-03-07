@@ -1,5 +1,5 @@
-import { User } from '../domain/User'
-import { Maybe } from '../types'
+import { User } from '../../domain/User'
+import { Maybe } from '../../types'
 import { client } from './client'
 import { tableName } from './config'
 

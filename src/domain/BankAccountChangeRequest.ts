@@ -33,3 +33,17 @@ export const mkBankAccountChangeRequest = (
     requestId: shortId(),
   }
 }
+
+const isWaiting = (data: BankAccountChangeRequest) => data.status === 'WAITING_FOR_VALIDATION'
+
+const isValidated = (data: BankAccountChangeRequest) =>
+  data.status === 'VALIDATION_SUCCESS' || data.status === 'VALIDATION_FAILED'
+
+const isDone = (data: BankAccountChangeRequest) =>
+  data.status === 'SUCCESS' || data.status === 'FAILURE'
+
+export const bankAccountChangeRequest = {
+  isWaiting,
+  isValidated,
+  isDone,
+}
