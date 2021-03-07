@@ -44,6 +44,10 @@ definition:
           userId.$: $.userId
           requestId.$: $.requestId
           token.$: $$.Task.Token
+      Catch:
+        - ErrorEquals: ['BANK_ACCOUNT_CHANGE_REJECTED']
+          ResultPath: $.error
+          Next: HandleFailedRequest
       Next: UpdateBankAccount
 
     UpdateBankAccount:

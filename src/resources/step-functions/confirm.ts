@@ -15,3 +15,14 @@ export const approveBankAccountChange = async (data: BankAccountChangeRequest) =
     })
     .promise()
 }
+
+export const rejectBankAccountChange = async (data: BankAccountChangeRequest, reason: string) => {
+  if (!data.token) throw new NotFoundError('token is missing')
+  await stepFunctions
+    .sendTaskFailure({
+      taskToken: data.token,
+      error: 'BANK_ACCOUNT_CHANGE_REJECTED',
+      cause: reason,
+    })
+    .promise()
+}
