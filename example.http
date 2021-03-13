@@ -1,0 +1,27 @@
+POST <endpoint-url>/dev/seed
+Content-Type: application/json
+
+###
+
+POST <endpoint-url>/dev/
+Content-Type: application/json
+
+{
+  "userId": "1",
+  "name": "test-name",
+  "iban": "NL02ABCD9876543210"
+}
+
+###
+
+POST <endpoint-url>/dev/approve/1/atCEXMuF7
+Content-Type: application/json
+
+{
+  "type": "APPROVE"
+}
+
+# {
+#   "type": "REJECT",
+#   "reason": "some message"
+# }

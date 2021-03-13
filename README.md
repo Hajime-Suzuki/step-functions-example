@@ -49,6 +49,8 @@ type BankAccountChangeStatus =
 
 ## Use Cases
 
+Note: API gateway is also deployed. Example requests are in the `example.http`
+
 ### CreateRequest:
 
 Endpoint: `POST /`
@@ -80,7 +82,8 @@ Here `waitForTaskToken` is used so that an administrator can perform final check
 Endpoint: `POST /approve/{userId}/{requestId}`
 
 RequestBody:
-`type` : `APPROVE | REJECT`
+`type` : `APPROVE | REJECT` \
+`reason`: `String` required if type is `REJECT`
 
 Approves or rejects the request.
 
@@ -95,3 +98,9 @@ Replace the current bank account info with the one of the request.
 ### NotifyCompleteRequest:
 
 User will receive notification that the bank account is updated. (sending notification is pseudo code)
+
+---
+
+## How to Deploy:
+
+run `yarn deploy:dev`

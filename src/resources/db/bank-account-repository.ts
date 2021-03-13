@@ -1,10 +1,10 @@
-import { User } from '../../domain/User'
+import { BankAccount } from '../../domain/User'
 import { Maybe } from '../../types'
 import { client } from './client'
 import { tableName } from './config'
 
-export const mkSortKey = () => ({ SK: 'USER' })
-const getById = async (userId: string): Promise<Maybe<User>> => {
+export const mkSortKey = () => ({ SK: 'BANK_ACCOUNT' })
+const getById = async (userId: string): Promise<Maybe<BankAccount>> => {
   const res = await client
     .get({
       TableName: tableName,
@@ -15,7 +15,7 @@ const getById = async (userId: string): Promise<Maybe<User>> => {
     })
     .promise()
 
-  return res.Item as Maybe<User>
+  return res.Item as Maybe<BankAccount>
 }
 
 const updateBankAccount = async (data: { userId: string; iban: string; name: string }) => {
@@ -41,7 +41,7 @@ const updateBankAccount = async (data: { userId: string; iban: string; name: str
     .promise()
 }
 
-export const userRepository = {
+export const bankAccountRepository = {
   getById,
   updateBankAccount,
 }

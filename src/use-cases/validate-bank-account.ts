@@ -2,15 +2,13 @@ import { bankAccountChangeRequest } from '../domain/BankAccountChangeRequest'
 import { InvalidBankAccountError } from '../errors/InvalidBankAccountError'
 import { NotFoundError } from '../errors/NotFoundError'
 import { changeRequestRepository } from '../resources/db/change-request-repository'
-import { BankAccountAccountChangeId, Maybe } from '../types'
+import { BankAccountChangeId, Maybe } from '../types'
 import { logger } from '../utils/logger'
 
 /**
  * this function handles handles any validation of the bank account, such as charging 1 cent
  */
-const validateBankAccount = async (
-  data: BankAccountAccountChangeId,
-): Promise<BankAccountAccountChangeId> => {
+const validateBankAccount = async (data: BankAccountChangeId): Promise<BankAccountChangeId> => {
   logger.log('input', data)
 
   const changeRequest = await changeRequestRepository.getOne(data)
@@ -50,10 +48,10 @@ const validateBankAccount = async (
 
 const validate = async (_data: { iban: string; name: string }): Promise<Maybe<string>> => {
   //* perform validation such as charge 1 cents. For the simplicity, this is a random success/failure
-  // return Math.random() < 0.5 ? null : 'invalid bank account...
+  return Math.random() < 0.5 ? null : 'invalid bank account...'
 
   // return 'invalid bank account'
-  return null
+  // return null
 }
 
 export const handler = validateBankAccount

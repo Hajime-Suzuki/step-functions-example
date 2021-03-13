@@ -1,4 +1,4 @@
-export type User = {
+export type BankAccount = {
   userId: string
   iban: string
   name: string

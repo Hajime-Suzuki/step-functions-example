@@ -1,6 +1,6 @@
 import { client } from './client'
 import { tableName } from './config'
-import { mkSortKey } from './user-repository'
+import { mkSortKey } from './bank-account-repository'
 
 export const seed = async () => {
   await client

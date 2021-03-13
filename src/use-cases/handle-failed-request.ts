@@ -1,14 +1,14 @@
 import { NotFoundError } from '../errors/NotFoundError'
 import { changeRequestRepository } from '../resources/db/change-request-repository'
-import { userRepository } from '../resources/db/user-repository'
-import { BankAccountAccountChangeId } from '../types'
+import { bankAccountRepository } from '../resources/db/bank-account-repository'
+import { BankAccountChangeId } from '../types'
 import { logger } from '../utils/logger'
 
-const handleFailedRequest = async (data: BankAccountAccountChangeId) => {
+const handleFailedRequest = async (data: BankAccountChangeId) => {
   logger.log('input', data)
 
-  const user = await userRepository.getById(data.userId)
-  if (!user) throw new NotFoundError('user not found')
+  const bankAccount = await bankAccountRepository.getById(data.userId)
+  if (!bankAccount) throw new NotFoundError('bank account not found')
 
   await changeRequestRepository.updateState({
     userId: data.userId,
@@ -16,7 +16,7 @@ const handleFailedRequest = async (data: BankAccountAccountChangeId) => {
     status: 'FAILURE',
   })
 
-  await sendEmail(user)
+  await sendEmail(bankAccount)
 
   return { done: true }
 }

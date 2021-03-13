@@ -15,13 +15,13 @@ const parseDBRecord = ({ SK, ...data }: DBRecord): BankAccountChangeRequest => (
   requestId: SK,
 })
 
-const save = async (data: BankAccountChangeRequest) => {
+const save = async ({ requestId, ...data }: BankAccountChangeRequest) => {
   await client
     .put({
       TableName: tableName,
       Item: {
         ...data,
-        ...mkSortKey(data.requestId),
+        ...mkSortKey(requestId),
       },
     })
     .promise()
